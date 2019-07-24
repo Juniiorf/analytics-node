@@ -202,58 +202,16 @@ class Analytics {
     }
 
     this.queue.push({ message, callback })
-
-    if (!this.flushed) {
-      this.flushed = true
-      this.flush()
-      return
-    }
-
-    if (this.queue.length >= this.flushAt) {
-      this.flush()
-    }
-
-    if (this.flushInterval && !this.timer) {
-      this.timer = setTimeout(this.flush.bind(this), this.flushInterval)
-    }
   }
 
-  /**
-   * Flush the current queue
-   *
-   * @param {Function} [callback] (optional)
-   * @return {Analytics}
-   */
-
-  flush (callback) {
-    callback = callback || noop
-
-    if (!this.enable) {
-      return setImmediate(callback)
-    }
-
-    if (this.timer) {
-      clearTimeout(this.timer)
-      this.timer = null
-    }
-
-    if (!this.queue.length) {
-      return setImmediate(callback)
-    }
-
+  flush () {
     const items = this.queue.splice(0, this.flushAt)
-    const callbacks = items.map(item => item.callback)
     const messages = items.map(item => item.message)
 
     const data = {
       batch: messages,
       timestamp: new Date(),
       sentAt: new Date()
-    }
-
-    const done = err => {
-      callbacks.forEach(callback => callback(err))
-      callback(err, data)
     }
 
     // Don't set the user agent if we're not on a browser. The latest spec allows
@@ -279,15 +237,13 @@ class Analytics {
       req.timeout = typeof this.timeout === 'string' ? ms(this.timeout) : this.timeout
     }
 
-    axios(req)
-      .then(() => done())
+    return axios(req)
+      .then((res) => res)
       .catch(err => {
         if (err.response) {
-          const error = new Error(err.response.statusText)
-          return done(error)
+          throw new Error(err.response.statusText)
         }
-
-        done(err)
+        throw new Error(err.message)
       })
   }
 

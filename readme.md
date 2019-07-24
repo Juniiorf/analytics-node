@@ -1,5 +1,4 @@
-# analytics-node [![CircleCI](https://circleci.com/gh/segmentio/analytics-node.svg?style=svg&circle-token=68654e8cd0fcd16b1f3ae9943a1d8e20e36ae6c5)](https://circleci.com/gh/segmentio/analytics-node)
-
+# analytics-node for lambda
 A Node.js client for [Segment](https://segment.com) — The hassle-free way to integrate analytics into any application.
 
 <div align="center">
