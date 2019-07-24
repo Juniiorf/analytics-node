@@ -1,9 +1,9 @@
 {
-  "name": "analytics-node",
+  "name": "analytics-node-serverless",
   "version": "3.4.0-beta.1",
-  "description": "The hassle-free way to integrate analytics into any Node.js application",
+  "description": "The hassle-free way to integrate analytics into any Node.js in serverless",
   "license": "MIT",
-  "repository": "segmentio/analytics-node",
+  "repository": "https://github.com/Juniiorf/analytics-node",
   "author": {
     "name": "Segment",
     "email": "tools+npm@segment.com",
